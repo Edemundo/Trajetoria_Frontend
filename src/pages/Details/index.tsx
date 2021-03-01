@@ -39,7 +39,10 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
     maxWidth: 700,
     marginBottom: 10,
   },
+  tableContainer1: {
+    marginBottom: 20,
 
+  },
 }));
 
 const StyledTableCell = withStyles((theme: Theme) => createStyles({
@@ -60,26 +63,73 @@ const StyledTableRow = withStyles((theme: Theme) => createStyles({
   },
 }))(TableRow);
 
-function createData(name: string, calories: number, fat: number, carbs: number, protein: number) {
+function createData(name: string, calories: string, fat: string, carbs: string, protein: string) {
   return {
     name, calories, fat, carbs, protein,
   };
 }
 
+function createDataDadosPessoais(name: string, value: string) {
+  return {
+    name, value,
+  };
+}
+
 const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
+  createData('Lorem ipsum dolor', 'Lorem ipsum dolor', 'Lorem ipsum dolor', 'Lorem ipsum dolor', 'Lorem ipsum dolor'),
+  createData('Lorem ipsum dolor', 'Lorem ipsum dolor', 'Lorem ipsum dolor', 'Lorem ipsum dolor', 'Lorem ipsum dolor'),
 ];
 
-const dadosBasicos = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
+const dadosPessoais = [
+  createDataDadosPessoais('Nome', 'Oswald de Andrade'),
+  createDataDadosPessoais('Nome da Mãe', 'Cecília Meirelles'),
+  createDataDadosPessoais('Data de Nascimento', '27/02/2020'),
+  createDataDadosPessoais('Idade', '35'),
+  createDataDadosPessoais('CPF', '488.365.456-79'),
+  createDataDadosPessoais('NIS', '333333'),
+  createDataDadosPessoais('Código Familiar', '*'),
+  createDataDadosPessoais('Responsável Familiar', '*'),
+  createDataDadosPessoais('Gênero', 'Masculino'),
+  createDataDadosPessoais('Raça/Cor', '*'),
+  createDataDadosPessoais('Nacionalidade', 'Brasileiro'),
+  createDataDadosPessoais('Endereço', 'Rua *'),
+  createDataDadosPessoais('Composição Familiar', '*'),
+  createDataDadosPessoais('Data de atualização CAD', '23/03/2017'),
+];
+
+const dadosSaude = [
+  createDataDadosPessoais('Possui Deficiência ', 'Não'),
+  createDataDadosPessoais('Cegueira', 'Não'),
+  createDataDadosPessoais('Deficiência Baixa Visão ', 'Não'),
+  createDataDadosPessoais('Surdez severa ', 'Não'),
+  createDataDadosPessoais('Surdez leve ', 'Não'),
+  createDataDadosPessoais('Deficiência Física ', 'Não'),
+  createDataDadosPessoais('Deficiência Mental ', 'Não'),
+  createDataDadosPessoais('Síndrome de Down ', 'Não'),
+  createDataDadosPessoais('Transtorno Mental ', 'Não'),
+];
+
+const dadosEducacao = [
+  createDataDadosPessoais('Sabe ler e escrever  ', 'Não'),
+  createDataDadosPessoais('Frequenta escola ', 'Não'),
+  createDataDadosPessoais('Curso que frequenta ', 'Não'),
+  createDataDadosPessoais('Ano e série que frequenta ', 'Não'),
+  createDataDadosPessoais('Curso mais elevado que frequentou  ', 'Não'),
+  createDataDadosPessoais('Último ano e série que frequentou ', 'Não'),
+  createDataDadosPessoais('Concluiu o curso frequentado  ', 'Não'),
+];
+const dadosFinanceiro = [
+  createDataDadosPessoais('Recebe ajuda de terceiros  ', 'Não'),
+  createDataDadosPessoais('Ajuda de Terceiros - Família ', 'Não'),
+  createDataDadosPessoais('Ajuda de Terceiros - Especializada ', 'Não'),
+  createDataDadosPessoais('Ajuda de Terceiros - Vizinhos ', 'Não'),
+  createDataDadosPessoais('Ajuda de Terceiros - Instituição da rede social  ', 'Não'),
+  createDataDadosPessoais('Ajuda de Terceiros  - Outra forma ', 'Não'),
+  createDataDadosPessoais('Exerceu trabalho remunerado nos últimos 12 meses ', 'Não'),
+  createDataDadosPessoais('Renda per capita familiar ', 'Não'),
+  createDataDadosPessoais('Função principal ', 'Não'),
+  createDataDadosPessoais('Indicação de Trabalho Infantil na Família ', 'Não'),
+
 ];
 
 const Details: React.FC = () => {
@@ -115,12 +165,12 @@ const Details: React.FC = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row) => (
+                {dadosPessoais.map((row) => (
                   <StyledTableRow key={row.name}>
                     <StyledTableCell component="th" scope="row">
                       {row.name}
                     </StyledTableCell>
-                    <StyledTableCell align="right">{row.calories}</StyledTableCell>
+                    <StyledTableCell align="right">{row.value}</StyledTableCell>
 
                   </StyledTableRow>
                 ))}
@@ -137,12 +187,12 @@ const Details: React.FC = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row) => (
+                {dadosSaude.map((row) => (
                   <StyledTableRow key={row.name}>
                     <StyledTableCell component="th" scope="row">
                       {row.name}
                     </StyledTableCell>
-                    <StyledTableCell align="right">{row.calories}</StyledTableCell>
+                    <StyledTableCell align="right">{row.value}</StyledTableCell>
 
                   </StyledTableRow>
                 ))}
@@ -161,12 +211,12 @@ const Details: React.FC = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row) => (
+                {dadosEducacao.map((row) => (
                   <StyledTableRow key={row.name}>
                     <StyledTableCell component="th" scope="row">
                       {row.name}
                     </StyledTableCell>
-                    <StyledTableCell align="right">{row.calories}</StyledTableCell>
+                    <StyledTableCell align="right">{row.value}</StyledTableCell>
 
                   </StyledTableRow>
                 ))}
@@ -183,12 +233,12 @@ const Details: React.FC = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row) => (
+                {dadosFinanceiro.map((row) => (
                   <StyledTableRow key={row.name}>
                     <StyledTableCell component="th" scope="row">
                       {row.name}
                     </StyledTableCell>
-                    <StyledTableCell align="right">{row.calories}</StyledTableCell>
+                    <StyledTableCell align="right">{row.value}</StyledTableCell>
 
                   </StyledTableRow>
                 ))}
@@ -196,16 +246,115 @@ const Details: React.FC = () => {
             </Table>
           </TableContainer>
         </div>
+        <section>
+          <h2>
+            Histórico de Acolhimento no SISA em Ordem Cronológica
+          </h2>
+          <br />
+          <h3>Cidadão Vinculado</h3>
+          <TableContainer component={Paper} className={classes.tableContainer1}>
+            <Table className={classes.table} aria-label="customized table">
+              <TableHead>
+                <TableRow>
+                  <StyledTableCell>
+                    Nome do Serviço/ Tipologia do Serviço/ SAS do Serviço/ Distrito do serviço
+                  </StyledTableCell>
+                  <StyledTableCell align="right">Vinculado em</StyledTableCell>
+                  <StyledTableCell align="right">Desligado em</StyledTableCell>
+                  <StyledTableCell align="right">Motivo acolhimento</StyledTableCell>
+                  <StyledTableCell align="right">Motivo do desligamento</StyledTableCell>
+                  <StyledTableCell align="right">Permanência (dias)</StyledTableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rows.map((row) => (
+                  <StyledTableRow key={row.name}>
+                    <StyledTableCell component="th" scope="row">
+                      {row.name}
+                    </StyledTableCell>
+                    <StyledTableCell align="right">{row.calories}</StyledTableCell>
+                    <StyledTableCell align="right">{row.fat}</StyledTableCell>
+                    <StyledTableCell align="right">{row.carbs}</StyledTableCell>
+                    <StyledTableCell align="right">{row.protein}</StyledTableCell>
+                    <StyledTableCell align="right">{row.protein}</StyledTableCell>
+                  </StyledTableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <h3>Cidadão Não Vinculado</h3>
+          <TableContainer component={Paper}>
+            <Table className={classes.table} aria-label="customized table">
+              <TableHead>
+                <TableRow>
+                  <StyledTableCell>Nome e Tipologia do Serviço</StyledTableCell>
+                  <StyledTableCell align="right">SAS e distrito do serviço </StyledTableCell>
+                  <StyledTableCell align="right">Data da Movimentação </StyledTableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rows.map((row) => (
+                  <StyledTableRow key={row.name}>
+                    <StyledTableCell component="th" scope="row">
+                      {row.name}
+                    </StyledTableCell>
+                    <StyledTableCell align="right">{row.calories}</StyledTableCell>
+                    <StyledTableCell align="right">{row.fat}</StyledTableCell>
 
-        <TableContainer component={Paper}>
+                  </StyledTableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </section>
+
+        <h2>Histórico de Atendimento na Rede Direta (SISCR) em Ordem Cronológica </h2>
+        <br />
+        <TableContainer component={Paper} className={classes.tableContainer1}>
           <Table className={classes.table} aria-label="customized table">
             <TableHead>
               <TableRow>
-                <StyledTableCell>Dessert (100g serving)</StyledTableCell>
-                <StyledTableCell align="right">Calories</StyledTableCell>
-                <StyledTableCell align="right">Fat&nbsp;(g)</StyledTableCell>
-                <StyledTableCell align="right">Carbs&nbsp;(g)</StyledTableCell>
-                <StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell>
+                <StyledTableCell>Centro de referência</StyledTableCell>
+                <StyledTableCell align="right">Demandas apresentadas</StyledTableCell>
+                <StyledTableCell align="right">SAS</StyledTableCell>
+                <StyledTableCell align="right">Distrito</StyledTableCell>
+                <StyledTableCell align="right">Pré-atendimento</StyledTableCell>
+                <StyledTableCell align="right">Atendimento</StyledTableCell>
+                <StyledTableCell align="right">Forma de acesso</StyledTableCell>
+                <StyledTableCell align="right">Encaminhamentos</StyledTableCell>
+                <StyledTableCell align="right">Movimentação </StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rows.map((row) => (
+                <StyledTableRow key={row.name}>
+                  <StyledTableCell component="th" scope="row">
+                    {row.name}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">{row.calories}</StyledTableCell>
+                  <StyledTableCell align="right">{row.fat}</StyledTableCell>
+                  <StyledTableCell align="right">{row.carbs}</StyledTableCell>
+                  <StyledTableCell align="right">{row.protein}</StyledTableCell>
+                  <StyledTableCell align="right">{row.protein}</StyledTableCell>
+                  <StyledTableCell align="right">{row.protein}</StyledTableCell>
+                  <StyledTableCell align="right">{row.protein}</StyledTableCell>
+                  <StyledTableCell align="right">{row.protein}</StyledTableCell>
+                </StyledTableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <h2>Histórico de Abordagem de Rua (SISRUA) em Ordem Cronológica </h2>
+        <br />
+        <TableContainer component={Paper} className={classes.tableContainer1}>
+          <Table className={classes.table} aria-label="customized table">
+            <TableHead>
+              <TableRow>
+                <StyledTableCell>Data da abordagem</StyledTableCell>
+                <StyledTableCell align="right">Aceitou abordagem?</StyledTableCell>
+                <StyledTableCell align="right">Motivo de recusa da abordagem</StyledTableCell>
+                <StyledTableCell align="right">Endereço de abordagem</StyledTableCell>
+                <StyledTableCell align="right">Nome do serviço de abordagem </StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -223,136 +372,7 @@ const Details: React.FC = () => {
             </TableBody>
           </Table>
         </TableContainer>
-        <TableContainer component={Paper}>
-          <Table className={classes.table} aria-label="customized table">
-            <TableHead>
-              <TableRow>
-                <StyledTableCell>Dessert (100g serving)</StyledTableCell>
-                <StyledTableCell align="right">Calories</StyledTableCell>
-                <StyledTableCell align="right">Fat&nbsp;(g)</StyledTableCell>
-                <StyledTableCell align="right">Carbs&nbsp;(g)</StyledTableCell>
-                <StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map((row) => (
-                <StyledTableRow key={row.name}>
-                  <StyledTableCell component="th" scope="row">
-                    {row.name}
-                  </StyledTableCell>
-                  <StyledTableCell align="right">{row.calories}</StyledTableCell>
-                  <StyledTableCell align="right">{row.fat}</StyledTableCell>
-                  <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-                  <StyledTableCell align="right">{row.protein}</StyledTableCell>
-                </StyledTableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TableContainer component={Paper}>
-          <Table className={classes.table} aria-label="customized table">
-            <TableHead>
-              <TableRow>
-                <StyledTableCell>Dessert (100g serving)</StyledTableCell>
-                <StyledTableCell align="right">Calories</StyledTableCell>
-                <StyledTableCell align="right">Fat&nbsp;(g)</StyledTableCell>
-                <StyledTableCell align="right">Carbs&nbsp;(g)</StyledTableCell>
-                <StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map((row) => (
-                <StyledTableRow key={row.name}>
-                  <StyledTableCell component="th" scope="row">
-                    {row.name}
-                  </StyledTableCell>
-                  <StyledTableCell align="right">{row.calories}</StyledTableCell>
-                  <StyledTableCell align="right">{row.fat}</StyledTableCell>
-                  <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-                  <StyledTableCell align="right">{row.protein}</StyledTableCell>
-                </StyledTableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TableContainer component={Paper}>
-          <Table className={classes.table} aria-label="customized table">
-            <TableHead>
-              <TableRow>
-                <StyledTableCell>Dessert (100g serving)</StyledTableCell>
-                <StyledTableCell align="right">Calories</StyledTableCell>
-                <StyledTableCell align="right">Fat&nbsp;(g)</StyledTableCell>
-                <StyledTableCell align="right">Carbs&nbsp;(g)</StyledTableCell>
-                <StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map((row) => (
-                <StyledTableRow key={row.name}>
-                  <StyledTableCell component="th" scope="row">
-                    {row.name}
-                  </StyledTableCell>
-                  <StyledTableCell align="right">{row.calories}</StyledTableCell>
-                  <StyledTableCell align="right">{row.fat}</StyledTableCell>
-                  <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-                  <StyledTableCell align="right">{row.protein}</StyledTableCell>
-                </StyledTableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TableContainer component={Paper}>
-          <Table className={classes.table} aria-label="customized table">
-            <TableHead>
-              <TableRow>
-                <StyledTableCell>Dessert (100g serving)</StyledTableCell>
-                <StyledTableCell align="right">Calories</StyledTableCell>
-                <StyledTableCell align="right">Fat&nbsp;(g)</StyledTableCell>
-                <StyledTableCell align="right">Carbs&nbsp;(g)</StyledTableCell>
-                <StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map((row) => (
-                <StyledTableRow key={row.name}>
-                  <StyledTableCell component="th" scope="row">
-                    {row.name}
-                  </StyledTableCell>
-                  <StyledTableCell align="right">{row.calories}</StyledTableCell>
-                  <StyledTableCell align="right">{row.fat}</StyledTableCell>
-                  <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-                  <StyledTableCell align="right">{row.protein}</StyledTableCell>
-                </StyledTableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TableContainer component={Paper}>
-          <Table className={classes.table} aria-label="customized table">
-            <TableHead>
-              <TableRow>
-                <StyledTableCell>Dessert (100g serving)</StyledTableCell>
-                <StyledTableCell align="right">Calories</StyledTableCell>
-                <StyledTableCell align="right">Fat&nbsp;(g)</StyledTableCell>
-                <StyledTableCell align="right">Carbs&nbsp;(g)</StyledTableCell>
-                <StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map((row) => (
-                <StyledTableRow key={row.name}>
-                  <StyledTableCell component="th" scope="row">
-                    {row.name}
-                  </StyledTableCell>
-                  <StyledTableCell align="right">{row.calories}</StyledTableCell>
-                  <StyledTableCell align="right">{row.fat}</StyledTableCell>
-                  <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-                  <StyledTableCell align="right">{row.protein}</StyledTableCell>
-                </StyledTableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+
       </DetailsBody>
       <Footer>
         Versão teste

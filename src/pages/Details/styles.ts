@@ -49,11 +49,14 @@ export const DetailsBody = styled.div`
     font-size: 48px;
     margin-bottom: 5rem;
     }
+
+
   }
 
   div {
     display: flex;
     justify-content: space-around;
+    margin-bottom: 30px;
   }
 
 `;
