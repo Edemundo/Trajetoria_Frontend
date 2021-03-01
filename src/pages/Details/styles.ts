@@ -24,7 +24,7 @@ export const Footer = styled.div`
   background-color:#692172;
   position: absolute;
   width: 100%;
-  bottom: 0px;
+  bottom: -1;
 
   display: flex;
   justify-content: flex-end;
@@ -34,21 +34,26 @@ export const Footer = styled.div`
   padding: 5px 20px;;
 `;
 
-export const BodySearch = styled.div`
+export const DetailsBody = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   max-width: 1500px;
   margin: 0 auto;
 
-  h1 {
+  article {
+    display: flex;
+    justify-content:space-between;
+
+    h1 {
     font-size: 48px;
     margin-bottom: 5rem;
+    }
   }
 
-  h2 {
-    font-size: 25px;
-    margin-bottom: 1rem;
+  div {
+    display: flex;
+    justify-content: space-around;
   }
 
 `;

@@ -10,9 +10,10 @@ export default createGlobalStyle`
 
 body {
   -webkit-font-smoothing: antialiased;
+  background-color: #F5F5F5;
 }
 
-border-style, :-ms-input-placeholder, button {
+body, input, button {
   font: 16px Roboto, sans-serif;
 }
 `;
