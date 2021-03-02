@@ -38,10 +38,16 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
   tableContainer: {
     maxWidth: 700,
     marginBottom: 10,
+    maxHeight: 798.5,
   },
   tableContainer1: {
     marginBottom: 20,
 
+  },
+  tableContainer2: {
+    maxWidth: 700,
+    marginBottom: 10,
+    maxHeight: 268.5,
   },
 }));
 
@@ -107,6 +113,12 @@ const dadosSaude = [
   createDataDadosPessoais('Deficiência Mental ', 'Não'),
   createDataDadosPessoais('Síndrome de Down ', 'Não'),
   createDataDadosPessoais('Transtorno Mental ', 'Não'),
+  createDataDadosPessoais('Recebe ajuda de terceiros  ', 'Não'),
+  createDataDadosPessoais('Ajuda de Terceiros - Família ', 'Não'),
+  createDataDadosPessoais('Ajuda de Terceiros - Especializada ', 'Não'),
+  createDataDadosPessoais('Ajuda de Terceiros - Vizinhos ', 'Não'),
+  createDataDadosPessoais('Ajuda de Terceiros - Instituição da rede social  ', 'Não'),
+  createDataDadosPessoais('Ajuda de Terceiros  - Outra forma ', 'Não'),
 ];
 
 const dadosEducacao = [
@@ -119,12 +131,6 @@ const dadosEducacao = [
   createDataDadosPessoais('Concluiu o curso frequentado  ', 'Não'),
 ];
 const dadosFinanceiro = [
-  createDataDadosPessoais('Recebe ajuda de terceiros  ', 'Não'),
-  createDataDadosPessoais('Ajuda de Terceiros - Família ', 'Não'),
-  createDataDadosPessoais('Ajuda de Terceiros - Especializada ', 'Não'),
-  createDataDadosPessoais('Ajuda de Terceiros - Vizinhos ', 'Não'),
-  createDataDadosPessoais('Ajuda de Terceiros - Instituição da rede social  ', 'Não'),
-  createDataDadosPessoais('Ajuda de Terceiros  - Outra forma ', 'Não'),
   createDataDadosPessoais('Exerceu trabalho remunerado nos últimos 12 meses ', 'Não'),
   createDataDadosPessoais('Renda per capita familiar ', 'Não'),
   createDataDadosPessoais('Função principal ', 'Não'),
@@ -142,7 +148,7 @@ const Details: React.FC = () => {
           Secretaria Municipal de Assistência e Desenvolvimento Social
         </h1>
         <p>
-          Coordenadoria de Gestão de Benefícios - CGB
+          COVS - Coordenação do Observatório da Vigilância Socioassistencial
         </p>
       </Header>
       <DetailsBody>
@@ -201,7 +207,7 @@ const Details: React.FC = () => {
           </TableContainer>
         </div>
         <div>
-          <TableContainer component={Paper} className={classes.tableContainer}>
+          <TableContainer component={Paper} className={classes.tableContainer2}>
             <Table className={classes.table} aria-label="customized table">
               <TableHead>
                 <TableRow>
@@ -223,7 +229,7 @@ const Details: React.FC = () => {
               </TableBody>
             </Table>
           </TableContainer>
-          <TableContainer component={Paper} className={classes.tableContainer}>
+          <TableContainer component={Paper} className={classes.tableContainer2}>
             <Table className={classes.table} aria-label="customized table">
               <TableHead>
                 <TableRow>

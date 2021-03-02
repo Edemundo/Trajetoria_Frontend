@@ -84,7 +84,7 @@ const Search: React.FC = () => {
           Secretaria Municipal de Assistência e Desenvolvimento Social
         </h1>
         <p>
-          Coordenadoria de Gestão de Benefícios - CGB
+          COVS - Coordenação do Observatório da Vigilância Socioassistencial
         </p>
       </Header>
       <BodySearch>
