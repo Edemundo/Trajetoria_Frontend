@@ -148,7 +148,8 @@ const Details: React.FC = () => {
           Secretaria Municipal de Assistência e Desenvolvimento Social
         </h1>
         <p>
-          COVS - Coordenação do Observatório da Vigilância Socioassistencial
+          Parceria Coordenação do Observatório da Vigilância Socioassistencial
+          e Coordenadoria de Gestão de Benefícios
         </p>
       </Header>
       <DetailsBody>
