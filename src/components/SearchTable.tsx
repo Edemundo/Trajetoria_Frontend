@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {
   withStyles, Theme, createStyles, makeStyles,
 } from '@material-ui/core/styles';
@@ -52,7 +53,7 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
   },
 }));
 
-export default function CustomizedTables(
+export default function SearchTable(
   props: { headers: Array<string>, values: Array<{
     codigoCidadao: number;
     nome: string;
@@ -89,7 +90,12 @@ export default function CustomizedTables(
               <StyledTableCell align="center">{row.nis}</StyledTableCell>
               <StyledTableCell align="center">
                 {' '}
-                <ColorButton variant="contained" color="primary" className={classes.margin} href="/details">
+                <ColorButton
+                  variant="contained"
+                  color="primary"
+                  className={classes.margin}
+                  href="/details"
+                >
                   DETALHAR
                 </ColorButton>
 

@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
-import CustomizedTables from '../../components/CustomizedTable';
+import SearchTable from '../../components/SearchTable';
 
 import { Header, Footer, BodySearch } from './styles';
 
@@ -17,13 +18,25 @@ function createData(
   };
 }
 
-const rows = [
-  createData(33333, 'Oswald de Andrade', 'Cecilia Meirelles', '01/03/2021', '320.465.660-84', 251515),
-  createData(33333, 'Oswald de Andrade', 'Cecilia Meirelles', '01/03/2021', '320.465.660-84', 251515),
-];
-
 const Search: React.FC = () => {
   const headersArray = ['Código do Cidadão', 'Nome', 'Nome da mãe', 'Data de Nascimento', 'CPF', 'NIS', ''];
+
+  const [userProfiles, setUserProfiles]:any = useState([]);
+
+  const fetchUserProfiles = () => {
+    axios.get('http://localhost:8080/cidadao/find/12718318805/12373169497/ELIANA%20PEREIRA%20DE%20OLIVEIRA/MARIA%20PEREIRA%20DE%20OLIVEIRA').then((res) => {
+      setUserProfiles(res.data);
+    });
+  };
+
+  useEffect(() => {
+    fetchUserProfiles();
+  }, []);
+
+  const rows = [
+    createData(userProfiles.ciCidadao, userProfiles.nmCidadao, userProfiles.nmMae,
+      userProfiles.dtNasc, userProfiles.nrCpf, userProfiles.cdNis),
+  ];
 
   return (
     <>
@@ -41,7 +54,7 @@ const Search: React.FC = () => {
           Trajetória do Cidadão
         </h1>
         <h2>Resultado(s) encontrado(s). Escolha o mais adequado:</h2>
-        <CustomizedTables headers={headersArray} values={rows} />
+        <SearchTable headers={headersArray} values={rows} />
       </BodySearch>
       <Footer>
         Versão teste

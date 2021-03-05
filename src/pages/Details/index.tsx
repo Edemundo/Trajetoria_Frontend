@@ -13,6 +13,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
+import DetailsTableSmall from '../../components/DetailsTableSmall';
+
 import { Header, Footer, DetailsBody } from './styles';
 
 const ColorButton = withStyles((theme: Theme) => ({
@@ -81,9 +83,27 @@ function createDataDadosPessoais(name: string, value: string) {
   };
 }
 
+function createData1(
+  codigoCidadao: number,
+  nome: string,
+  nomeMae: string,
+  dataNascimento: string,
+  cpf: string,
+  nis: number,
+) {
+  return {
+    codigoCidadao, nome, nomeMae, dataNascimento, cpf, nis,
+  };
+}
+
 const rows = [
   createData('Lorem ipsum dolor', 'Lorem ipsum dolor', 'Lorem ipsum dolor', 'Lorem ipsum dolor', 'Lorem ipsum dolor'),
   createData('Lorem ipsum dolor', 'Lorem ipsum dolor', 'Lorem ipsum dolor', 'Lorem ipsum dolor', 'Lorem ipsum dolor'),
+];
+
+const rows1 = [
+  createData1(1, 'Nome', 'Nome da Mae',
+    '11/04/1995', '50298945871', 3232323),
 ];
 
 const dadosPessoais = [
@@ -141,6 +161,8 @@ const dadosFinanceiro = [
 const Details: React.FC = () => {
   const classes = useStyles();
 
+  const headersArray = ['Código do Cidadão', 'Nome', 'Nome da mãe', 'Data de Nascimento', 'CPF', 'NIS', ''];
+
   return (
     <>
       <Header>
@@ -161,6 +183,9 @@ const Details: React.FC = () => {
             VOLTAR
           </ColorButton>
         </article>
+        <div>
+          <DetailsTableSmall header="Dados Pessoais" values={dadosPessoais} />
+        </div>
         <div>
           <TableContainer component={Paper} className={classes.tableContainer}>
             <Table className={classes.table} aria-label="customized table">
