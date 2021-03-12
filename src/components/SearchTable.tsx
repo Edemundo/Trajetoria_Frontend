@@ -10,18 +10,8 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import Button from '@material-ui/core/Button';
-import { purple } from '@material-ui/core/colors';
 
-const ColorButton = withStyles((theme: Theme) => ({
-  root: {
-    color: theme.palette.getContrastText(purple[500]),
-    backgroundColor: purple[500],
-    '&:hover': {
-      backgroundColor: purple[700],
-    },
-  },
-}))(Button);
+import ColorButton from './ColorButton';
 
 const StyledTableCell = withStyles((theme: Theme) => createStyles({
   head: {
@@ -54,14 +44,7 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 }));
 
 export default function SearchTable(
-  props: { headers: Array<string>, values: Array<{
-    codigoCidadao: number;
-    nome: string;
-    nomeMae: string;
-    dataNascimento: string;
-    cpf: string;
-    nis: number;
-}>},
+  props: { headers: Array<string>, values: any },
 ):JSX.Element {
   const classes = useStyles();
 

@@ -1,31 +1,17 @@
 import React from 'react';
 
 import {
-  withStyles, Theme, createStyles, makeStyles,
+  Theme, createStyles, makeStyles,
 } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import { purple } from '@material-ui/core/colors';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
 
 import DetailsTableSmall from '../../components/DetailsTableSmall';
+import CidadaoVinculadoSISATable from '../../components/CidadaoVinculadoSISATable';
+import CidadaoNaoVinculadoSISATable from '../../components/CidadaoNaoVinculadoSISA';
+import SISCRTable from '../../components/SISCRTable';
+import SISRuaTable from '../../components/SISRuaTable';
+import ColorButton from '../../components/ColorButton';
 
 import { Header, Footer, DetailsBody } from './styles';
-
-const ColorButton = withStyles((theme: Theme) => ({
-  root: {
-    color: theme.palette.getContrastText(purple[500]),
-    backgroundColor: purple[500],
-    '&:hover': {
-      backgroundColor: purple[700],
-    },
-  },
-}))(Button);
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
   margin: {
@@ -34,65 +20,23 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
     maxwidth: 60,
     fontSize: 15,
   },
-  table: {
-    minWidth: 100,
-  },
-  tableContainer: {
-    maxWidth: 700,
-    marginBottom: 10,
-    maxHeight: 798.5,
-  },
-  tableContainer1: {
-    marginBottom: 20,
-
-  },
-  tableContainer2: {
-    maxWidth: 700,
-    marginBottom: 10,
-    maxHeight: 268.5,
-  },
 }));
 
-const StyledTableCell = withStyles((theme: Theme) => createStyles({
-  head: {
-    backgroundColor: '#692172',
-    color: theme.palette.common.white,
-  },
-  body: {
-    fontSize: 14,
-  },
-}))(TableCell);
-
-const StyledTableRow = withStyles((theme: Theme) => createStyles({
-  root: {
-    '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.action.hover,
-    },
-  },
-}))(TableRow);
-
-function createData(name: string, calories: string, fat: string, carbs: string, protein: string) {
-  return {
-    name, calories, fat, carbs, protein,
-  };
-}
-
-function createDataDadosPessoais(name: string, value: string) {
-  return {
-    name, value,
-  };
-}
-
-function createData1(
-  codigoCidadao: number,
-  nome: string,
-  nomeMae: string,
-  dataNascimento: string,
-  cpf: string,
-  nis: number,
+function createData(
+  attribute1: string,
+  attribute2: string,
+  attribute3: string,
+  attribute4: string,
+  attribute5: string,
 ) {
   return {
-    codigoCidadao, nome, nomeMae, dataNascimento, cpf, nis,
+    attribute1, attribute2, attribute3, attribute4, attribute5,
+  };
+}
+
+function createBodySmallTable(name: string, value: string) {
+  return {
+    name, value,
   };
 }
 
@@ -101,68 +45,96 @@ const rows = [
   createData('Lorem ipsum dolor', 'Lorem ipsum dolor', 'Lorem ipsum dolor', 'Lorem ipsum dolor', 'Lorem ipsum dolor'),
 ];
 
-const rows1 = [
-  createData1(1, 'Nome', 'Nome da Mae',
-    '11/04/1995', '50298945871', 3232323),
+const tableBodyPessoais = [
+  createBodySmallTable('Nome', 'Oswald de Andrade'),
+  createBodySmallTable('Nome da Mãe', 'Cecília Meirelles'),
+  createBodySmallTable('Data de Nascimento', '27/02/2020'),
+  createBodySmallTable('Idade', '35'),
+  createBodySmallTable('CPF', '488.365.456-79'),
+  createBodySmallTable('NIS', '333333'),
+  createBodySmallTable('Código Familiar', '*'),
+  createBodySmallTable('Responsável Familiar', '*'),
+  createBodySmallTable('Gênero', 'Masculino'),
+  createBodySmallTable('Raça/Cor', '*'),
+  createBodySmallTable('Nacionalidade', 'Brasileiro'),
+  createBodySmallTable('Endereço', 'Rua *'),
+  createBodySmallTable('Composição Familiar', '*'),
+  createBodySmallTable('Data de atualização CAD', '23/03/2017'),
+  createBodySmallTable('Está vivo', 'Sim'),
 ];
 
-const dadosPessoais = [
-  createDataDadosPessoais('Nome', 'Oswald de Andrade'),
-  createDataDadosPessoais('Nome da Mãe', 'Cecília Meirelles'),
-  createDataDadosPessoais('Data de Nascimento', '27/02/2020'),
-  createDataDadosPessoais('Idade', '35'),
-  createDataDadosPessoais('CPF', '488.365.456-79'),
-  createDataDadosPessoais('NIS', '333333'),
-  createDataDadosPessoais('Código Familiar', '*'),
-  createDataDadosPessoais('Responsável Familiar', '*'),
-  createDataDadosPessoais('Gênero', 'Masculino'),
-  createDataDadosPessoais('Raça/Cor', '*'),
-  createDataDadosPessoais('Nacionalidade', 'Brasileiro'),
-  createDataDadosPessoais('Endereço', 'Rua *'),
-  createDataDadosPessoais('Composição Familiar', '*'),
-  createDataDadosPessoais('Data de atualização CAD', '23/03/2017'),
+const tableBodySaude = [
+  createBodySmallTable('Possui Deficiência ', 'Não'),
+  createBodySmallTable('Cegueira', 'Não'),
+  createBodySmallTable('Deficiência Baixa Visão ', 'Não'),
+  createBodySmallTable('Surdez severa ', 'Não'),
+  createBodySmallTable('Surdez leve ', 'Não'),
+  createBodySmallTable('Deficiência Física ', 'Não'),
+  createBodySmallTable('Deficiência Mental ', 'Não'),
+  createBodySmallTable('Síndrome de Down ', 'Não'),
+  createBodySmallTable('Transtorno Mental ', 'Não'),
+  createBodySmallTable('Recebe ajuda de terceiros  ', 'Não'),
+  createBodySmallTable('Ajuda de Terceiros - Família ', 'Não'),
+  createBodySmallTable('Ajuda de Terceiros - Especializada ', 'Não'),
+  createBodySmallTable('Ajuda de Terceiros - Vizinhos ', 'Não'),
+  createBodySmallTable('Ajuda de Terceiros - Instituição da rede social  ', 'Não'),
+  createBodySmallTable('Ajuda de Terceiros  - Outra forma ', 'Não'),
 ];
 
-const dadosSaude = [
-  createDataDadosPessoais('Possui Deficiência ', 'Não'),
-  createDataDadosPessoais('Cegueira', 'Não'),
-  createDataDadosPessoais('Deficiência Baixa Visão ', 'Não'),
-  createDataDadosPessoais('Surdez severa ', 'Não'),
-  createDataDadosPessoais('Surdez leve ', 'Não'),
-  createDataDadosPessoais('Deficiência Física ', 'Não'),
-  createDataDadosPessoais('Deficiência Mental ', 'Não'),
-  createDataDadosPessoais('Síndrome de Down ', 'Não'),
-  createDataDadosPessoais('Transtorno Mental ', 'Não'),
-  createDataDadosPessoais('Recebe ajuda de terceiros  ', 'Não'),
-  createDataDadosPessoais('Ajuda de Terceiros - Família ', 'Não'),
-  createDataDadosPessoais('Ajuda de Terceiros - Especializada ', 'Não'),
-  createDataDadosPessoais('Ajuda de Terceiros - Vizinhos ', 'Não'),
-  createDataDadosPessoais('Ajuda de Terceiros - Instituição da rede social  ', 'Não'),
-  createDataDadosPessoais('Ajuda de Terceiros  - Outra forma ', 'Não'),
+const tableBodyEducacao = [
+  createBodySmallTable('Sabe ler e escrever  ', 'Não'),
+  createBodySmallTable('Frequenta escola ', 'Não'),
+  createBodySmallTable('Curso que frequenta ', 'Não'),
+  createBodySmallTable('Ano e série que frequenta ', 'Não'),
+  createBodySmallTable('Curso mais elevado que frequentou  ', 'Não'),
+  createBodySmallTable('Último ano e série que frequentou ', 'Não'),
+  createBodySmallTable('Concluiu o curso frequentado  ', 'Não'),
+];
+const tableBodyFinanceiro = [
+  createBodySmallTable('Exerceu trabalho remunerado nos últimos 12 meses ', 'Não'),
+  createBodySmallTable('Renda per capita familiar ', 'Não'),
+  createBodySmallTable('Função principal ', 'Não'),
+  createBodySmallTable('Indicação de Trabalho Infantil na Família ', 'Não'),
+
 ];
 
-const dadosEducacao = [
-  createDataDadosPessoais('Sabe ler e escrever  ', 'Não'),
-  createDataDadosPessoais('Frequenta escola ', 'Não'),
-  createDataDadosPessoais('Curso que frequenta ', 'Não'),
-  createDataDadosPessoais('Ano e série que frequenta ', 'Não'),
-  createDataDadosPessoais('Curso mais elevado que frequentou  ', 'Não'),
-  createDataDadosPessoais('Último ano e série que frequentou ', 'Não'),
-  createDataDadosPessoais('Concluiu o curso frequentado  ', 'Não'),
+const headersVinculadoSISA = [
+  'Nome do Serviço/ Tipologia do Serviço/ SAS do Serviço/ Distrito do serviço',
+  'Vinculado em',
+  'Desligado em',
+  'Motivo acolhimento',
+  'Motivo do desligamento',
+  'Permanência (dias)',
 ];
-const dadosFinanceiro = [
-  createDataDadosPessoais('Exerceu trabalho remunerado nos últimos 12 meses ', 'Não'),
-  createDataDadosPessoais('Renda per capita familiar ', 'Não'),
-  createDataDadosPessoais('Função principal ', 'Não'),
-  createDataDadosPessoais('Indicação de Trabalho Infantil na Família ', 'Não'),
 
+const headersNaoVinculadoSISA = [
+  'Nome e Tipologia do Serviço',
+  'SAS e distrito do serviço',
+  'Data da Movimentação',
+];
+
+const headersSISCR = [
+  'Centro de referência',
+  'Demandas apresentadas',
+  'SAS',
+  'Distrito',
+  'Pré-atendimento',
+  'Atendimento',
+  'Forma de acesso',
+  'Encaminhamentos',
+  'Movimentação',
+];
+
+const headersSISRua = [
+  'Data da abordagem',
+  'Aceitou abordagem?',
+  'Motivo de recusa da abordagem',
+  'Endereço de abordagem',
+  'Nome do serviço de abordagem',
 ];
 
 const Details: React.FC = () => {
   const classes = useStyles();
-
-  const headersArray = ['Código do Cidadão', 'Nome', 'Nome da mãe', 'Data de Nascimento', 'CPF', 'NIS', ''];
-
   return (
     <>
       <Header>
@@ -183,227 +155,38 @@ const Details: React.FC = () => {
             VOLTAR
           </ColorButton>
         </article>
+
         <div>
-          <DetailsTableSmall header="Dados Pessoais" values={dadosPessoais} />
+          <DetailsTableSmall header="Dados Pessoais" values={tableBodyPessoais} height={900} />
+          <DetailsTableSmall header="Saúde" values={tableBodySaude} height={900} />
         </div>
+
         <div>
-          <TableContainer component={Paper} className={classes.tableContainer}>
-            <Table className={classes.table} aria-label="customized table">
-              <TableHead>
-                <TableRow>
-                  <StyledTableCell>Dados Pessoais</StyledTableCell>
-                  <StyledTableCell align="right" />
-
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {dadosPessoais.map((row) => (
-                  <StyledTableRow key={row.name}>
-                    <StyledTableCell component="th" scope="row">
-                      {row.name}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">{row.value}</StyledTableCell>
-
-                  </StyledTableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <TableContainer component={Paper} className={classes.tableContainer}>
-            <Table className={classes.table} aria-label="customized table">
-              <TableHead>
-                <TableRow>
-                  <StyledTableCell>Saúde</StyledTableCell>
-                  <StyledTableCell align="right" />
-
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {dadosSaude.map((row) => (
-                  <StyledTableRow key={row.name}>
-                    <StyledTableCell component="th" scope="row">
-                      {row.name}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">{row.value}</StyledTableCell>
-
-                  </StyledTableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+          <DetailsTableSmall header="Educação" values={tableBodyEducacao} height={500} />
+          <DetailsTableSmall header="Situação Financeira" values={tableBodyFinanceiro} height={300} />
         </div>
-        <div>
-          <TableContainer component={Paper} className={classes.tableContainer2}>
-            <Table className={classes.table} aria-label="customized table">
-              <TableHead>
-                <TableRow>
-                  <StyledTableCell>Educação</StyledTableCell>
-                  <StyledTableCell align="right" />
 
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {dadosEducacao.map((row) => (
-                  <StyledTableRow key={row.name}>
-                    <StyledTableCell component="th" scope="row">
-                      {row.name}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">{row.value}</StyledTableCell>
+        <h2>
+          Histórico de Acolhimento no SISA em Ordem Cronológica
+        </h2>
+        <br />
 
-                  </StyledTableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <TableContainer component={Paper} className={classes.tableContainer2}>
-            <Table className={classes.table} aria-label="customized table">
-              <TableHead>
-                <TableRow>
-                  <StyledTableCell>Situação Financeira</StyledTableCell>
-                  <StyledTableCell align="right" />
+        <h3>Cidadão Vinculado</h3>
+        <CidadaoVinculadoSISATable headers={headersVinculadoSISA} values={rows} />
 
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {dadosFinanceiro.map((row) => (
-                  <StyledTableRow key={row.name}>
-                    <StyledTableCell component="th" scope="row">
-                      {row.name}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">{row.value}</StyledTableCell>
-
-                  </StyledTableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </div>
-        <section>
-          <h2>
-            Histórico de Acolhimento no SISA em Ordem Cronológica
-          </h2>
-          <br />
-          <h3>Cidadão Vinculado</h3>
-          <TableContainer component={Paper} className={classes.tableContainer1}>
-            <Table className={classes.table} aria-label="customized table">
-              <TableHead>
-                <TableRow>
-                  <StyledTableCell>
-                    Nome do Serviço/ Tipologia do Serviço/ SAS do Serviço/ Distrito do serviço
-                  </StyledTableCell>
-                  <StyledTableCell align="right">Vinculado em</StyledTableCell>
-                  <StyledTableCell align="right">Desligado em</StyledTableCell>
-                  <StyledTableCell align="right">Motivo acolhimento</StyledTableCell>
-                  <StyledTableCell align="right">Motivo do desligamento</StyledTableCell>
-                  <StyledTableCell align="right">Permanência (dias)</StyledTableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {rows.map((row) => (
-                  <StyledTableRow key={row.name}>
-                    <StyledTableCell component="th" scope="row">
-                      {row.name}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">{row.calories}</StyledTableCell>
-                    <StyledTableCell align="right">{row.fat}</StyledTableCell>
-                    <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-                    <StyledTableCell align="right">{row.protein}</StyledTableCell>
-                    <StyledTableCell align="right">{row.protein}</StyledTableCell>
-                  </StyledTableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <h3>Cidadão Não Vinculado</h3>
-          <TableContainer component={Paper}>
-            <Table className={classes.table} aria-label="customized table">
-              <TableHead>
-                <TableRow>
-                  <StyledTableCell>Nome e Tipologia do Serviço</StyledTableCell>
-                  <StyledTableCell align="right">SAS e distrito do serviço </StyledTableCell>
-                  <StyledTableCell align="right">Data da Movimentação </StyledTableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {rows.map((row) => (
-                  <StyledTableRow key={row.name}>
-                    <StyledTableCell component="th" scope="row">
-                      {row.name}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">{row.calories}</StyledTableCell>
-                    <StyledTableCell align="right">{row.fat}</StyledTableCell>
-
-                  </StyledTableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </section>
+        <h3>Cidadão Não Vinculado</h3>
+        <CidadaoNaoVinculadoSISATable
+          headers={headersNaoVinculadoSISA}
+          values={rows}
+        />
 
         <h2>Histórico de Atendimento na Rede Direta (SISCR) em Ordem Cronológica </h2>
         <br />
-        <TableContainer component={Paper} className={classes.tableContainer1}>
-          <Table className={classes.table} aria-label="customized table">
-            <TableHead>
-              <TableRow>
-                <StyledTableCell>Centro de referência</StyledTableCell>
-                <StyledTableCell align="right">Demandas apresentadas</StyledTableCell>
-                <StyledTableCell align="right">SAS</StyledTableCell>
-                <StyledTableCell align="right">Distrito</StyledTableCell>
-                <StyledTableCell align="right">Pré-atendimento</StyledTableCell>
-                <StyledTableCell align="right">Atendimento</StyledTableCell>
-                <StyledTableCell align="right">Forma de acesso</StyledTableCell>
-                <StyledTableCell align="right">Encaminhamentos</StyledTableCell>
-                <StyledTableCell align="right">Movimentação </StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map((row) => (
-                <StyledTableRow key={row.name}>
-                  <StyledTableCell component="th" scope="row">
-                    {row.name}
-                  </StyledTableCell>
-                  <StyledTableCell align="right">{row.calories}</StyledTableCell>
-                  <StyledTableCell align="right">{row.fat}</StyledTableCell>
-                  <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-                  <StyledTableCell align="right">{row.protein}</StyledTableCell>
-                  <StyledTableCell align="right">{row.protein}</StyledTableCell>
-                  <StyledTableCell align="right">{row.protein}</StyledTableCell>
-                  <StyledTableCell align="right">{row.protein}</StyledTableCell>
-                  <StyledTableCell align="right">{row.protein}</StyledTableCell>
-                </StyledTableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+        <SISCRTable headers={headersSISCR} values={rows} />
+
         <h2>Histórico de Abordagem de Rua (SISRUA) em Ordem Cronológica </h2>
         <br />
-        <TableContainer component={Paper} className={classes.tableContainer1}>
-          <Table className={classes.table} aria-label="customized table">
-            <TableHead>
-              <TableRow>
-                <StyledTableCell>Data da abordagem</StyledTableCell>
-                <StyledTableCell align="right">Aceitou abordagem?</StyledTableCell>
-                <StyledTableCell align="right">Motivo de recusa da abordagem</StyledTableCell>
-                <StyledTableCell align="right">Endereço de abordagem</StyledTableCell>
-                <StyledTableCell align="right">Nome do serviço de abordagem </StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map((row) => (
-                <StyledTableRow key={row.name}>
-                  <StyledTableCell component="th" scope="row">
-                    {row.name}
-                  </StyledTableCell>
-                  <StyledTableCell align="right">{row.calories}</StyledTableCell>
-                  <StyledTableCell align="right">{row.fat}</StyledTableCell>
-                  <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-                  <StyledTableCell align="right">{row.protein}</StyledTableCell>
-                </StyledTableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+        <SISRuaTable headers={headersSISRua} values={rows} />
 
       </DetailsBody>
       <Footer>

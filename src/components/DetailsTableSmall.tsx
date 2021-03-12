@@ -12,7 +12,7 @@ import Paper from '@material-ui/core/Paper';
 
 const StyledTableCell = withStyles((theme: Theme) => createStyles({
   head: {
-    backgroundColor: theme.palette.common.black,
+    backgroundColor: '#692172',
     color: theme.palette.common.white,
   },
   body: {
@@ -43,13 +43,13 @@ const rows = [
 ];
 
 export default function DetailsTableSmall(props:any) {
-  const { header, values } = props;
+  const { header, values, height } = props;
 
   const useStyles = makeStyles({
     table: {
       maxWidth: 700,
       marginBottom: 10,
-      maxHeight: 799,
+      maxHeight: height,
     },
   });
 
@@ -60,7 +60,7 @@ export default function DetailsTableSmall(props:any) {
       <Table className={classes.table} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell>Dados Pessoais</StyledTableCell>
+            <StyledTableCell>{header}</StyledTableCell>
             <StyledTableCell align="right" />
           </TableRow>
         </TableHead>
@@ -70,7 +70,7 @@ export default function DetailsTableSmall(props:any) {
               <StyledTableCell component="th" scope="row">
                 {row.name}
               </StyledTableCell>
-              <StyledTableCell align="right">{row.name}</StyledTableCell>
+              <StyledTableCell align="right">{row.value}</StyledTableCell>
 
             </StyledTableRow>
           ))}
