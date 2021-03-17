@@ -16,7 +16,7 @@ import ColorButton from '../../components/ColorButton';
 
 import { InfoRequestContext } from '../../providers/infoRequest';
 import {
-  Header, Footer, DetailsBody, LoaderBody,
+  DetailsBody, LoaderBody,
 } from './styles';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
@@ -97,12 +97,8 @@ const Details: React.FC = () => {
 
   const [userInfos, setUserInfos]:any = useState([]);
 
-  console.log(infoRequest);
-
   const fetchUserProfiles = () => {
     const data = JSON.stringify({ ...infoRequest });
-
-    console.log(data);
 
     const config:any = {
       method: 'post',
@@ -128,13 +124,21 @@ const Details: React.FC = () => {
     fetchUserProfiles();
   }, []);
 
+  let dataConventionalFormat = '';
+
+  if (userInfos.dtNasc) {
+    const dataSplitedByYearMonthDay = userInfos.dtNasc.split('-');
+    dataConventionalFormat = `${dataSplitedByYearMonthDay[0]}/${dataSplitedByYearMonthDay[1]}/${dataSplitedByYearMonthDay[2]}`;
+  }
+
   const tableBodyPessoais = [
     createBodySmallTable('Nome', userInfos.nmCidadao),
     createBodySmallTable('Nome da Mãe', userInfos.nmMae),
-    createBodySmallTable('Data de Nascimento', userInfos.dtNasc),
+    createBodySmallTable('Data de Nascimento', dataConventionalFormat),
     createBodySmallTable('Idade', `${userInfos.ageCidadao} anos`),
     createBodySmallTable('CPF', userInfos.nrCpf),
     createBodySmallTable('NIS', userInfos.cdNis),
+    createBodySmallTable('Código Cidadão', userInfos.ciCidadao),
     createBodySmallTable('Código Familiar', userInfos.codFamiliarFam),
     createBodySmallTable('Responsável Familiar', '*****'),
     createBodySmallTable('Gênero', userInfos.dcTipoSexo),
@@ -203,7 +207,7 @@ const Details: React.FC = () => {
               </article>
 
               <div>
-                <DetailsTableSmall header="Dados Pessoais" values={tableBodyPessoais} height={910} />
+                <DetailsTableSmall header="Dados Pessoais" values={tableBodyPessoais} height={1000} />
                 <DetailsTableSmall header="Situação Financeira" values={tableBodyFinanceiro} height={640} />
               </div>
 

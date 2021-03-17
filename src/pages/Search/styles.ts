@@ -12,6 +12,7 @@ export const BodySearch = styled.div`
   h1 {
     font-size: 48px;
     margin-bottom: 5rem;
+    margin-top: 5rem;
   }
 
   h2 {

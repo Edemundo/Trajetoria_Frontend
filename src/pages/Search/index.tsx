@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import MoonLoader from 'react-spinners/MoonLoader';
 
 import SearchTable from '../../components/SearchTable';
@@ -8,27 +8,47 @@ import SearchTable from '../../components/SearchTable';
 import {
   BodySearch, LoaderBody,
 } from './styles';
-import { InfoRequestContext } from '../../providers/infoRequest';
+
+interface routeParams {
+  cpf?: string | undefined,
+  nis?: string | undefined,
+  nmCidadao?: string | undefined,
+  nmMae?: string | undefined,
+  dtNasc?: string | undefined,
+}
+
+interface personInterface {
+  ciCidadao: number,
+  nmCidadao: string,
+  nmMae: string,
+  dtNasc: string,
+  nrCpf: string,
+  cdNis: number,
+  ciTipoSexo: number,
+  ciRacaObservada: number,
+  ciPaisOrigem: number,
+  ciSitCidadao:number,
+}
 
 function createData(
-  codigoCidadao: number,
-  nome: string,
-  nomeMae: string,
-  dataNascimento: string,
-  cpf: string,
-  nis: number,
+  ciCidadao: number,
+  nmCidadao: string,
+  nmMae: string,
+  dtNasc: string,
+  nrCpf: string,
+  cdNis: number,
   ciTipoSexo: number,
   ciRacaObservada: number,
   ciPaisOrigem: number,
   ciSitCidadao:number,
 ) {
   return {
-    codigoCidadao,
-    nome,
-    nomeMae,
-    dataNascimento,
-    cpf,
-    nis,
+    ciCidadao,
+    nmCidadao,
+    nmMae,
+    dtNasc,
+    nrCpf,
+    cdNis,
     ciTipoSexo,
     ciRacaObservada,
     ciPaisOrigem,
@@ -41,19 +61,24 @@ const Search: React.FC = () => {
 
   const {
     cpf, nis, nmCidadao, nmMae, dtNasc,
-  }:any = useParams();
+  }:routeParams = useParams();
 
   const [loading, setLoading] = useState(true);
 
-  const { setInfoRequest }:any = React.useContext(InfoRequestContext);
+  const [userProfiles, setUserProfiles] = useState([]);
 
-  const [userProfiles, setUserProfiles]:any = useState([]);
+  const history = useHistory();
+
+  let rows = [];
 
   const fetchUserProfiles = () => {
     axios.get(`http://localhost:8080/cidadao/find/${cpf}/${nis}/${nmCidadao}/${nmMae}/${dtNasc}`).then((res) => {
       setUserProfiles(res.data);
 
       setLoading(false);
+    }).catch((error) => {
+      console.log(error);
+      history.push('/Error');
     });
   };
 
@@ -61,9 +86,7 @@ const Search: React.FC = () => {
     fetchUserProfiles();
   }, []);
 
-  let rows = [];
-
-  rows = userProfiles.map((person:any) => (createData(
+  rows = userProfiles.map((person:personInterface) => (createData(
     person.ciCidadao,
     person.nmCidadao,
     person.nmMae,

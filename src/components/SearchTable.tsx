@@ -67,43 +67,49 @@ export default function SearchTable(
           </TableRow>
         </TableHead>
         <TableBody>
-          {values.map((row:any) => (
-            <StyledTableRow>
-              <StyledTableCell align="center">{row.codigoCidadao}</StyledTableCell>
-              <StyledTableCell align="center">{row.nome}</StyledTableCell>
-              <StyledTableCell align="center">{row.nomeMae}</StyledTableCell>
-              <StyledTableCell align="center">{row.dataNascimento}</StyledTableCell>
-              <StyledTableCell align="center">{row.cpf}</StyledTableCell>
-              <StyledTableCell align="center">{row.nis}</StyledTableCell>
-              <StyledTableCell align="center">
-                <ColorButton
-                  key={row.codigoCidadao + 2}
-                  variant="contained"
-                  color="primary"
-                  className={classes.margin}
-                  onClick={() => {
-                    setInfoRequest({
-                      ciCidadao: row.codigoCidadao,
-                      nmCidadao: row.nome,
-                      nmMae: row.nomeMae,
-                      dtNasc: row.dataNascimento,
-                      cdNis: row.nis,
-                      nrCpf: row.cpf,
-                      ciTipoSexo: row.ciTipoSexo,
-                      ciRacaObservada: row.ciRacaObservada,
-                      ciPaisOrigem: row.ciPaisOrigem,
-                      ciSitCidadao: row.ciSitCidadao,
-                    });
+          {values.map((row:any) => {
+            const dataWithoutTime = row.dtNasc.split('T');
+            const dataSplitedByYearMonthDay = dataWithoutTime[0].split('-');
+            const dataConventionalFormat = `${dataSplitedByYearMonthDay[2]}/${dataSplitedByYearMonthDay[1]}/${dataSplitedByYearMonthDay[0]}`;
 
-                    history.push('/details');
-                  }}
-                >
-                  DETALHAR
+            return (
+              <StyledTableRow>
+                <StyledTableCell align="center">{row.ciCidadao}</StyledTableCell>
+                <StyledTableCell align="center">{row.nmCidadao}</StyledTableCell>
+                <StyledTableCell align="center">{row.nmMae}</StyledTableCell>
+                <StyledTableCell align="center">{dataConventionalFormat}</StyledTableCell>
+                <StyledTableCell align="center">{row.nrCpf}</StyledTableCell>
+                <StyledTableCell align="center">{row.cdNis}</StyledTableCell>
+                <StyledTableCell align="center">
+                  <ColorButton
+                    key={row.codigoCidadao + 2}
+                    variant="contained"
+                    color="primary"
+                    className={classes.margin}
+                    onClick={() => {
+                      setInfoRequest({
+                        ciCidadao: row.ciCidadao,
+                        nmCidadao: row.nmCidadao,
+                        nmMae: row.nmMae,
+                        dtNasc: row.dtNasc,
+                        cdNis: row.cdNis,
+                        nrCpf: row.nrCpf,
+                        ciTipoSexo: row.ciTipoSexo,
+                        ciRacaObservada: row.ciRacaObservada,
+                        ciPaisOrigem: row.ciPaisOrigem,
+                        ciSitCidadao: row.ciSitCidadao,
+                      });
 
-                </ColorButton>
-              </StyledTableCell>
-            </StyledTableRow>
-          ))}
+                      history.push('/details');
+                    }}
+                  >
+                    DETALHAR
+
+                  </ColorButton>
+                </StyledTableCell>
+              </StyledTableRow>
+            );
+          })}
         </TableBody>
       </Table>
     </TableContainer>
