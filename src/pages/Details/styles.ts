@@ -17,7 +17,7 @@ export const Header = styled.div`
     margin-bottom: 5px;
   }
 
-  margin-bottom: 50px;
+
 `;
 
 export const Footer = styled.div`
@@ -31,10 +31,11 @@ export const Footer = styled.div`
 
   color: #FFFF;
 
-  padding: 5px 20px;;
+  padding: 5px 20px;
 `;
 
 export const DetailsBody = styled.div`
+  padding-top: 50px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -59,4 +60,11 @@ export const DetailsBody = styled.div`
     margin-bottom: 30px;
   }
 
+`;
+
+export const LoaderBody = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
 `;

@@ -1,4 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import MoonLoader from 'react-spinners/MoonLoader';
+import { useHistory } from 'react-router-dom';
 
 import {
   Theme, createStyles, makeStyles,
@@ -11,7 +14,10 @@ import SISCRTable from '../../components/SISCRTable';
 import SISRuaTable from '../../components/SISRuaTable';
 import ColorButton from '../../components/ColorButton';
 
-import { Header, Footer, DetailsBody } from './styles';
+import { InfoRequestContext } from '../../providers/infoRequest';
+import {
+  Header, Footer, DetailsBody, LoaderBody,
+} from './styles';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
   margin: {
@@ -43,59 +49,6 @@ function createBodySmallTable(name: string, value: string) {
 const rows = [
   createData('Lorem ipsum dolor', 'Lorem ipsum dolor', 'Lorem ipsum dolor', 'Lorem ipsum dolor', 'Lorem ipsum dolor'),
   createData('Lorem ipsum dolor', 'Lorem ipsum dolor', 'Lorem ipsum dolor', 'Lorem ipsum dolor', 'Lorem ipsum dolor'),
-];
-
-const tableBodyPessoais = [
-  createBodySmallTable('Nome', 'Oswald de Andrade'),
-  createBodySmallTable('Nome da Mãe', 'Cecília Meirelles'),
-  createBodySmallTable('Data de Nascimento', '27/02/2020'),
-  createBodySmallTable('Idade', '35'),
-  createBodySmallTable('CPF', '488.365.456-79'),
-  createBodySmallTable('NIS', '333333'),
-  createBodySmallTable('Código Familiar', '*'),
-  createBodySmallTable('Responsável Familiar', '*'),
-  createBodySmallTable('Gênero', 'Masculino'),
-  createBodySmallTable('Raça/Cor', '*'),
-  createBodySmallTable('Nacionalidade', 'Brasileiro'),
-  createBodySmallTable('Endereço', 'Rua *'),
-  createBodySmallTable('Composição Familiar', '*'),
-  createBodySmallTable('Data de atualização CAD', '23/03/2017'),
-  createBodySmallTable('Está vivo', 'Sim'),
-];
-
-const tableBodySaude = [
-  createBodySmallTable('Possui Deficiência ', 'Não'),
-  createBodySmallTable('Cegueira', 'Não'),
-  createBodySmallTable('Deficiência Baixa Visão ', 'Não'),
-  createBodySmallTable('Surdez severa ', 'Não'),
-  createBodySmallTable('Surdez leve ', 'Não'),
-  createBodySmallTable('Deficiência Física ', 'Não'),
-  createBodySmallTable('Deficiência Mental ', 'Não'),
-  createBodySmallTable('Síndrome de Down ', 'Não'),
-  createBodySmallTable('Transtorno Mental ', 'Não'),
-  createBodySmallTable('Recebe ajuda de terceiros  ', 'Não'),
-  createBodySmallTable('Ajuda de Terceiros - Família ', 'Não'),
-  createBodySmallTable('Ajuda de Terceiros - Especializada ', 'Não'),
-  createBodySmallTable('Ajuda de Terceiros - Vizinhos ', 'Não'),
-  createBodySmallTable('Ajuda de Terceiros - Instituição da rede social  ', 'Não'),
-  createBodySmallTable('Ajuda de Terceiros  - Outra forma ', 'Não'),
-];
-
-const tableBodyEducacao = [
-  createBodySmallTable('Sabe ler e escrever  ', 'Não'),
-  createBodySmallTable('Frequenta escola ', 'Não'),
-  createBodySmallTable('Curso que frequenta ', 'Não'),
-  createBodySmallTable('Ano e série que frequenta ', 'Não'),
-  createBodySmallTable('Curso mais elevado que frequentou  ', 'Não'),
-  createBodySmallTable('Último ano e série que frequentou ', 'Não'),
-  createBodySmallTable('Concluiu o curso frequentado  ', 'Não'),
-];
-const tableBodyFinanceiro = [
-  createBodySmallTable('Exerceu trabalho remunerado nos últimos 12 meses ', 'Não'),
-  createBodySmallTable('Renda per capita familiar ', 'Não'),
-  createBodySmallTable('Função principal ', 'Não'),
-  createBodySmallTable('Indicação de Trabalho Infantil na Família ', 'Não'),
-
 ];
 
 const headersVinculadoSISA = [
@@ -135,63 +88,157 @@ const headersSISRua = [
 
 const Details: React.FC = () => {
   const classes = useStyles();
+
+  const history = useHistory();
+
+  const { infoRequest }:any = React.useContext(InfoRequestContext);
+
+  const [loading, setLoading] = useState(true);
+
+  const [userInfos, setUserInfos]:any = useState([]);
+
+  console.log(infoRequest);
+
+  const fetchUserProfiles = () => {
+    const data = JSON.stringify({ ...infoRequest });
+
+    console.log(data);
+
+    const config:any = {
+      method: 'post',
+      url: 'http://localhost:8080/cidadao/detalhes',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data,
+    };
+
+    axios(config)
+      .then((response) => {
+        setUserInfos(response.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        history.push('/Error');
+      });
+  };
+
+  useEffect(() => {
+    fetchUserProfiles();
+  }, []);
+
+  const tableBodyPessoais = [
+    createBodySmallTable('Nome', userInfos.nmCidadao),
+    createBodySmallTable('Nome da Mãe', userInfos.nmMae),
+    createBodySmallTable('Data de Nascimento', userInfos.dtNasc),
+    createBodySmallTable('Idade', `${userInfos.ageCidadao} anos`),
+    createBodySmallTable('CPF', userInfos.nrCpf),
+    createBodySmallTable('NIS', userInfos.cdNis),
+    createBodySmallTable('Código Familiar', userInfos.codFamiliarFam),
+    createBodySmallTable('Responsável Familiar', '*****'),
+    createBodySmallTable('Gênero', userInfos.dcTipoSexo),
+    createBodySmallTable('Raça/Cor', userInfos.dcRaca),
+    createBodySmallTable('Nacionalidade', userInfos.nmPais),
+    createBodySmallTable('Endereço', userInfos.descEndereco),
+    createBodySmallTable('Composição Familiar', `${userInfos.qtdPessoasDomicFam} pessoas`),
+    createBodySmallTable('Data de atualização CAD', '*****'),
+    createBodySmallTable('Está vivo', userInfos.dcSitCidadao),
+  ];
+
+  const tableBodySaude = [
+    createBodySmallTable('Possui Deficiência ', userInfos.codDeficienciaMemb),
+    createBodySmallTable('Cegueira', userInfos.indDefCegueiraMemb),
+    createBodySmallTable('Deficiência Baixa Visão ', userInfos.indDefBaixaVisaoMemb),
+    createBodySmallTable('Surdez severa ', userInfos.indDefSurdezProfundaMemb),
+    createBodySmallTable('Surdez leve ', userInfos.indDefSurdezLeveMemb),
+    createBodySmallTable('Deficiência Física ', userInfos.indDefFisicaMemb),
+    createBodySmallTable('Deficiência Mental ', userInfos.indDefMentalMemb),
+    createBodySmallTable('Síndrome de Down ', userInfos.indDefSindromeDownMemb),
+    createBodySmallTable('Transtorno Mental ', userInfos.indDefTranstornoMentalMemb),
+  ];
+
+  const tableBodyEducacao = [
+    createBodySmallTable('Sabe ler e escrever  ', userInfos.codSabeLerEscreverMemb),
+    createBodySmallTable('Frequenta escola ', userInfos.descFrequentaEscolaMemb),
+    createBodySmallTable('Curso que frequenta ', userInfos.descCursoFrequentaMemb),
+    createBodySmallTable('Ano e série que frequenta ', userInfos.descAnoSerieFrequentaMemb),
+    createBodySmallTable('Curso mais elevado que frequentou  ', userInfos.descCursoFrequentouPessoaMemb),
+    createBodySmallTable('Último ano e série que frequentou ', userInfos.descAnoSerieFrequentouMemb),
+    createBodySmallTable('Concluiu o curso frequentado  ', userInfos.codConcluiuFrequentouMemb),
+  ];
+  const tableBodyFinanceiro = [
+    createBodySmallTable('Exerceu trabalho remunerado nos últimos 12 meses ', '*****'),
+    createBodySmallTable('Renda per capita familiar ', userInfos.vlrRendaMediaFam),
+    createBodySmallTable('Função principal ', userInfos.descTrabMembro),
+    createBodySmallTable('Indicação de Trabalho Infantil na Família ', userInfos.indTrabalhoInfantilFam),
+    createBodySmallTable('Recebe ajuda de terceiros  ', userInfos.indAjudaNaoMemb),
+    createBodySmallTable('Ajuda de Terceiros - Família ', userInfos.indAjudaFamiliaMemb),
+    createBodySmallTable('Ajuda de Terceiros - Especializada ', '*****'),
+    createBodySmallTable('Ajuda de Terceiros - Vizinhos ', '*****'),
+    createBodySmallTable('Ajuda de Terceiros - Instituição da rede social  ', '*****'),
+    createBodySmallTable('Ajuda de Terceiros  - Outra forma ', '*****'),
+  ];
+
   return (
     <>
-      <Header>
-        <h1>
-          Secretaria Municipal de Assistência e Desenvolvimento Social
-        </h1>
-        <p>
-          Parceria Coordenação do Observatório da Vigilância Socioassistencial
-          e Coordenadoria de Gestão de Benefícios
-        </p>
-      </Header>
-      <DetailsBody>
-        <article>
-          <h1>
-            Trajetória do Cidadão
-          </h1>
-          <ColorButton variant="contained" color="primary" className={classes.margin} href="/">
-            VOLTAR
-          </ColorButton>
-        </article>
 
-        <div>
-          <DetailsTableSmall header="Dados Pessoais" values={tableBodyPessoais} height={900} />
-          <DetailsTableSmall header="Saúde" values={tableBodySaude} height={900} />
-        </div>
+      {
 
-        <div>
-          <DetailsTableSmall header="Educação" values={tableBodyEducacao} height={500} />
-          <DetailsTableSmall header="Situação Financeira" values={tableBodyFinanceiro} height={300} />
-        </div>
+        loading
+          ? (
+            <LoaderBody>
+              <MoonLoader color="#692172" size={100} />
+            </LoaderBody>
+          )
+          : (
+            <DetailsBody>
+              <article>
+                <h1>
+                  Trajetória do Cidadão
+                </h1>
+                <ColorButton variant="contained" color="primary" className={classes.margin} onClick={() => { history.goBack(); }}>
+                  VOLTAR
+                </ColorButton>
+              </article>
 
-        <h2>
-          Histórico de Acolhimento no SISA em Ordem Cronológica
-        </h2>
-        <br />
+              <div>
+                <DetailsTableSmall header="Dados Pessoais" values={tableBodyPessoais} height={910} />
+                <DetailsTableSmall header="Situação Financeira" values={tableBodyFinanceiro} height={640} />
+              </div>
 
-        <h3>Cidadão Vinculado</h3>
-        <CidadaoVinculadoSISATable headers={headersVinculadoSISA} values={rows} />
+              <div>
+                <DetailsTableSmall header="Educação" values={tableBodyEducacao} height={480} />
+                <DetailsTableSmall header="Saúde" values={tableBodySaude} height={550} />
 
-        <h3>Cidadão Não Vinculado</h3>
-        <CidadaoNaoVinculadoSISATable
-          headers={headersNaoVinculadoSISA}
-          values={rows}
-        />
+              </div>
 
-        <h2>Histórico de Atendimento na Rede Direta (SISCR) em Ordem Cronológica </h2>
-        <br />
-        <SISCRTable headers={headersSISCR} values={rows} />
+              <h2>
+                Histórico de Acolhimento no SISA em Ordem Cronológica
+              </h2>
+              <br />
 
-        <h2>Histórico de Abordagem de Rua (SISRUA) em Ordem Cronológica </h2>
-        <br />
-        <SISRuaTable headers={headersSISRua} values={rows} />
+              <h3>Cidadão Vinculado</h3>
+              <CidadaoVinculadoSISATable headers={headersVinculadoSISA} values={rows} />
 
-      </DetailsBody>
-      <Footer>
-        Versão teste
-      </Footer>
+              <h3>Cidadão Não Vinculado</h3>
+              <CidadaoNaoVinculadoSISATable
+                headers={headersNaoVinculadoSISA}
+                values={rows}
+              />
+
+              <h2>Histórico de Atendimento na Rede Direta (SISCR) em Ordem Cronológica </h2>
+              <br />
+              <SISCRTable headers={headersSISCR} values={rows} />
+
+              <h2>Histórico de Abordagem de Rua (SISRUA) em Ordem Cronológica </h2>
+              <br />
+              <SISRuaTable headers={headersSISRua} values={rows} />
+
+            </DetailsBody>
+          )
+      }
+
     </>
   );
 };

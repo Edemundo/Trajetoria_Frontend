@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
+import MoonLoader from 'react-spinners/MoonLoader';
 
 import SearchTable from '../../components/SearchTable';
 
-import { Header, Footer, BodySearch } from './styles';
+import {
+  BodySearch, LoaderBody,
+} from './styles';
+import { InfoRequestContext } from '../../providers/infoRequest';
 
 function createData(
   codigoCidadao: number,
@@ -12,20 +17,43 @@ function createData(
   dataNascimento: string,
   cpf: string,
   nis: number,
+  ciTipoSexo: number,
+  ciRacaObservada: number,
+  ciPaisOrigem: number,
+  ciSitCidadao:number,
 ) {
   return {
-    codigoCidadao, nome, nomeMae, dataNascimento, cpf, nis,
+    codigoCidadao,
+    nome,
+    nomeMae,
+    dataNascimento,
+    cpf,
+    nis,
+    ciTipoSexo,
+    ciRacaObservada,
+    ciPaisOrigem,
+    ciSitCidadao,
   };
 }
 
 const Search: React.FC = () => {
   const headersArray = ['Código do Cidadão', 'Nome', 'Nome da mãe', 'Data de Nascimento', 'CPF', 'NIS', ''];
 
+  const {
+    cpf, nis, nmCidadao, nmMae, dtNasc,
+  }:any = useParams();
+
+  const [loading, setLoading] = useState(true);
+
+  const { setInfoRequest }:any = React.useContext(InfoRequestContext);
+
   const [userProfiles, setUserProfiles]:any = useState([]);
 
   const fetchUserProfiles = () => {
-    axios.get('http://localhost:8080/cidadao/find/12718318805/12373169497/ELIANA%20PEREIRA%20DE%20OLIVEIRA/MARIA%20PEREIRA%20DE%20OLIVEIRA').then((res) => {
+    axios.get(`http://localhost:8080/cidadao/find/${cpf}/${nis}/${nmCidadao}/${nmMae}/${dtNasc}`).then((res) => {
       setUserProfiles(res.data);
+
+      setLoading(false);
     });
   };
 
@@ -33,32 +61,42 @@ const Search: React.FC = () => {
     fetchUserProfiles();
   }, []);
 
-  const rows = [
-    createData(userProfiles.ciCidadao, userProfiles.nmCidadao, userProfiles.nmMae,
-      userProfiles.dtNasc, userProfiles.nrCpf, userProfiles.cdNis),
-  ];
+  let rows = [];
+
+  rows = userProfiles.map((person:any) => (createData(
+    person.ciCidadao,
+    person.nmCidadao,
+    person.nmMae,
+    person.dtNasc,
+    person.nrCpf,
+    person.cdNis,
+    person.ciTipoSexo,
+    person.ciRacaObservada,
+    person.ciPaisOrigem,
+    person.ciSitCidadao,
+  )
+  ));
 
   return (
     <>
-      <Header>
-        <h1>
-          Secretaria Municipal de Assistência e Desenvolvimento Social
-        </h1>
-        <p>
-          Parceria Coordenação do Observatório da Vigilância Socioassistencial
-          e Coordenadoria de Gestão de Benefícios
-        </p>
-      </Header>
-      <BodySearch>
-        <h1>
-          Trajetória do Cidadão
-        </h1>
-        <h2>Resultado(s) encontrado(s). Escolha o mais adequado:</h2>
-        <SearchTable headers={headersArray} values={rows} />
-      </BodySearch>
-      <Footer>
-        Versão teste
-      </Footer>
+
+      {loading
+        ? (
+          <LoaderBody>
+            <MoonLoader color="#692172" size={100} />
+          </LoaderBody>
+        )
+
+        : (
+          <BodySearch>
+            <h1>
+              Trajetória do Cidadão
+            </h1>
+            <h2>Resultado(s) encontrado(s). Escolha o mais adequado:</h2>
+            <SearchTable headers={headersArray} values={rows} />
+          </BodySearch>
+        )}
+
     </>
   );
 };

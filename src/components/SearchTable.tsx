@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link, useHistory } from 'react-router-dom';
 
 import {
   withStyles, Theme, createStyles, makeStyles,
@@ -12,6 +13,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
 import ColorButton from './ColorButton';
+import { InfoRequestContext } from '../providers/infoRequest';
 
 const StyledTableCell = withStyles((theme: Theme) => createStyles({
   head: {
@@ -50,9 +52,13 @@ export default function SearchTable(
 
   const { headers, values } = props;
 
+  const history = useHistory();
+
+  const { setInfoRequest }:any = React.useContext(InfoRequestContext);
+
   return (
-    <TableContainer component={Paper}>
-      <Table className={classes.table} aria-label="customized table">
+    <TableContainer component={Paper} key="2">
+      <Table className={classes.table} aria-label="customized table" key="2">
         <TableHead>
           <TableRow>
             {headers.map((header: string) => (
@@ -62,26 +68,39 @@ export default function SearchTable(
         </TableHead>
         <TableBody>
           {values.map((row:any) => (
-            <StyledTableRow key={row.codigoCidadao}>
-              <StyledTableCell component="th" scope="row" align="center">
-                {row.codigoCidadao}
-              </StyledTableCell>
+            <StyledTableRow>
+              <StyledTableCell align="center">{row.codigoCidadao}</StyledTableCell>
               <StyledTableCell align="center">{row.nome}</StyledTableCell>
               <StyledTableCell align="center">{row.nomeMae}</StyledTableCell>
               <StyledTableCell align="center">{row.dataNascimento}</StyledTableCell>
               <StyledTableCell align="center">{row.cpf}</StyledTableCell>
               <StyledTableCell align="center">{row.nis}</StyledTableCell>
               <StyledTableCell align="center">
-                {' '}
                 <ColorButton
+                  key={row.codigoCidadao + 2}
                   variant="contained"
                   color="primary"
                   className={classes.margin}
-                  href="/details"
+                  onClick={() => {
+                    setInfoRequest({
+                      ciCidadao: row.codigoCidadao,
+                      nmCidadao: row.nome,
+                      nmMae: row.nomeMae,
+                      dtNasc: row.dataNascimento,
+                      cdNis: row.nis,
+                      nrCpf: row.cpf,
+                      ciTipoSexo: row.ciTipoSexo,
+                      ciRacaObservada: row.ciRacaObservada,
+                      ciPaisOrigem: row.ciPaisOrigem,
+                      ciSitCidadao: row.ciSitCidadao,
+                    });
+
+                    history.push('/details');
+                  }}
                 >
                   DETALHAR
-                </ColorButton>
 
+                </ColorButton>
               </StyledTableCell>
             </StyledTableRow>
           ))}

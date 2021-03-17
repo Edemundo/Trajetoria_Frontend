@@ -13,6 +13,11 @@ body {
   background-color: #F5F5F5;
 }
 
+body, html {
+  height:100%;
+  width: 100%;
+}
+
 body, input, button {
   font: 16px Roboto, sans-serif;
 }
