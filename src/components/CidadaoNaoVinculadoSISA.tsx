@@ -60,9 +60,13 @@ export default function CidadaoNaoVinculadoSISATable(
           <TableBody>
             {values.map((row:any) => (
               <StyledTableRow key={row.attribute1}>
-                <StyledTableCell>{row.attribute1}</StyledTableCell>
-                <StyledTableCell>{row.attribute1}</StyledTableCell>
-                <StyledTableCell>{row.attribute1}</StyledTableCell>
+                <StyledTableCell>{row.nmServico}</StyledTableCell>
+                <StyledTableCell>{row.nmTipoServico}</StyledTableCell>
+                <StyledTableCell>{row.nmSubprefeitura}</StyledTableCell>
+                <StyledTableCell>{row.nmDistrito}</StyledTableCell>
+                <StyledTableCell>{row.qtdEstadias}</StyledTableCell>
+                <StyledTableCell>{row.primeiraData}</StyledTableCell>
+                <StyledTableCell>{row.ultimaData}</StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>

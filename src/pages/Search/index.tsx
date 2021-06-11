@@ -74,7 +74,6 @@ const Search: React.FC = () => {
   const fetchUserProfiles = () => {
     axios.get(`http://localhost:8080/cidadao/find/${cpf}/${nis}/${nmCidadao}/${nmMae}/${dtNasc}`).then((res) => {
       setUserProfiles(res.data);
-
       setLoading(false);
     }).catch((error) => {
       console.log(error);

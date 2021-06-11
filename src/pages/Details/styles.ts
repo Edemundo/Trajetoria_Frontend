@@ -5,7 +5,7 @@ export const DetailsBody = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  max-width: 1500px;
+  max-width: 1300px;
   margin: 0 auto;
 
   article {

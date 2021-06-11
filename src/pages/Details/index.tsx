@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+
 import axios from 'axios';
 import MoonLoader from 'react-spinners/MoonLoader';
 import { useHistory } from 'react-router-dom';
@@ -46,24 +47,29 @@ function createBodySmallTable(name: string, value: string) {
   };
 }
 
-const rows = [
-  createData('Lorem ipsum dolor', 'Lorem ipsum dolor', 'Lorem ipsum dolor', 'Lorem ipsum dolor', 'Lorem ipsum dolor'),
-  createData('Lorem ipsum dolor', 'Lorem ipsum dolor', 'Lorem ipsum dolor', 'Lorem ipsum dolor', 'Lorem ipsum dolor'),
-];
+const rows = [''];
 
 const headersVinculadoSISA = [
-  'Nome do Serviço/ Tipologia do Serviço/ SAS do Serviço/ Distrito do serviço',
+  'Nome do Serviço',
+  'Tipologia do Serviço',
+  'SAS do Serviço',
+  'Distrito do serviço',
   'Vinculado em',
+  'Motivo da procura',
+  'Origem da procura',
   'Desligado em',
-  'Motivo acolhimento',
   'Motivo do desligamento',
   'Permanência (dias)',
 ];
 
 const headersNaoVinculadoSISA = [
-  'Nome e Tipologia do Serviço',
-  'SAS e distrito do serviço',
-  'Data da Movimentação',
+  'Nome',
+  'Tipologia do Serviço',
+  'SAS',
+  'Distrito do serviço',
+  'Quantidade de Estadias',
+  'Primeira Estadia',
+  'Última Estadia',
 ];
 
 const headersSISCR = [
@@ -95,7 +101,7 @@ const Details: React.FC = () => {
 
   const [loading, setLoading] = useState(true);
 
-  const [userInfos, setUserInfos]:any = useState([]);
+  const [userInfos, setUserInfos]:any = useState();
 
   const fetchUserProfiles = () => {
     const data = JSON.stringify({ ...infoRequest });
@@ -113,6 +119,7 @@ const Details: React.FC = () => {
       .then((response) => {
         setUserInfos(response.data);
         setLoading(false);
+        console.log(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -126,62 +133,64 @@ const Details: React.FC = () => {
 
   let dataConventionalFormat = '';
 
-  if (userInfos.dtNasc) {
-    const dataSplitedByYearMonthDay = userInfos.dtNasc.split('-');
+  if (userInfos?.dtNasc) {
+    const dataSplitedByYearMonthDay = userInfos?.dtNasc.split('-');
     dataConventionalFormat = `${dataSplitedByYearMonthDay[0]}/${dataSplitedByYearMonthDay[1]}/${dataSplitedByYearMonthDay[2]}`;
   }
 
+  const valuesVinculadoSISA = userInfos?.lstSisa;
+
+  const valuesNaoVinculadoSISA = userInfos?.lstSisaPernoite;
+
   const tableBodyPessoais = [
-    createBodySmallTable('Nome', userInfos.nmCidadao),
-    createBodySmallTable('Nome da Mãe', userInfos.nmMae),
+    createBodySmallTable('Nome', userInfos?.nmCidadao),
+    createBodySmallTable('Nome da Mãe', userInfos?.nmMae),
     createBodySmallTable('Data de Nascimento', dataConventionalFormat),
-    createBodySmallTable('Idade', `${userInfos.ageCidadao} anos`),
-    createBodySmallTable('CPF', userInfos.nrCpf),
-    createBodySmallTable('NIS', userInfos.cdNis),
-    createBodySmallTable('Código Cidadão', userInfos.ciCidadao),
-    createBodySmallTable('Código Familiar', userInfos.codFamiliarFam),
-    createBodySmallTable('Responsável Familiar', '*****'),
-    createBodySmallTable('Gênero', userInfos.dcTipoSexo),
-    createBodySmallTable('Raça/Cor', userInfos.dcRaca),
-    createBodySmallTable('Nacionalidade', userInfos.nmPais),
-    createBodySmallTable('Endereço', userInfos.descEndereco),
-    createBodySmallTable('Composição Familiar', `${userInfos.qtdPessoasDomicFam} pessoas`),
-    createBodySmallTable('Data de atualização CAD', '*****'),
-    createBodySmallTable('Está vivo', userInfos.dcSitCidadao),
+    createBodySmallTable('Idade', `${userInfos?.ageCidadao} anos`),
+    createBodySmallTable('CPF', userInfos?.nrCpf),
+    createBodySmallTable('NIS', userInfos?.cdNis),
+    createBodySmallTable('Código Cidadão', userInfos?.ciCidadao),
+    createBodySmallTable('Código Familiar', userInfos?.codFamiliarFam),
+    createBodySmallTable('Responsável Familiar', userInfos?.descResponsavel),
+    createBodySmallTable('Gênero', userInfos?.dcTipoSexo),
+    createBodySmallTable('Raça/Cor', userInfos?.dcRaca),
+    createBodySmallTable('Nacionalidade', userInfos?.nmPais),
+    createBodySmallTable('Endereço', userInfos?.descEndereco),
+    createBodySmallTable('Está vivo', userInfos?.dcSitCidadao),
   ];
 
   const tableBodySaude = [
-    createBodySmallTable('Possui Deficiência ', userInfos.codDeficienciaMemb),
-    createBodySmallTable('Cegueira', userInfos.indDefCegueiraMemb),
-    createBodySmallTable('Deficiência Baixa Visão ', userInfos.indDefBaixaVisaoMemb),
-    createBodySmallTable('Surdez severa ', userInfos.indDefSurdezProfundaMemb),
-    createBodySmallTable('Surdez leve ', userInfos.indDefSurdezLeveMemb),
-    createBodySmallTable('Deficiência Física ', userInfos.indDefFisicaMemb),
-    createBodySmallTable('Deficiência Mental ', userInfos.indDefMentalMemb),
-    createBodySmallTable('Síndrome de Down ', userInfos.indDefSindromeDownMemb),
-    createBodySmallTable('Transtorno Mental ', userInfos.indDefTranstornoMentalMemb),
+    createBodySmallTable('Possui Deficiência ', userInfos?.codDeficienciaMemb),
+    createBodySmallTable('Cegueira', userInfos?.indDefCegueiraMemb),
+    createBodySmallTable('Deficiência Baixa Visão ', userInfos?.indDefBaixaVisaoMemb),
+    createBodySmallTable('Surdez severa ', userInfos?.indDefSurdezProfundaMemb),
+    createBodySmallTable('Surdez leve ', userInfos?.indDefSurdezLeveMemb),
+    createBodySmallTable('Deficiência Física ', userInfos?.indDefFisicaMemb),
+    createBodySmallTable('Deficiência Mental ', userInfos?.indDefMentalMemb),
+    createBodySmallTable('Síndrome de Down ', userInfos?.indDefSindromeDownMemb),
+    createBodySmallTable('Transtorno Mental ', userInfos?.indDefTranstornoMentalMemb),
   ];
 
   const tableBodyEducacao = [
-    createBodySmallTable('Sabe ler e escrever  ', userInfos.codSabeLerEscreverMemb),
-    createBodySmallTable('Frequenta escola ', userInfos.descFrequentaEscolaMemb),
-    createBodySmallTable('Curso que frequenta ', userInfos.descCursoFrequentaMemb),
-    createBodySmallTable('Ano e série que frequenta ', userInfos.descAnoSerieFrequentaMemb),
-    createBodySmallTable('Curso mais elevado que frequentou  ', userInfos.descCursoFrequentouPessoaMemb),
-    createBodySmallTable('Último ano e série que frequentou ', userInfos.descAnoSerieFrequentouMemb),
-    createBodySmallTable('Concluiu o curso frequentado  ', userInfos.codConcluiuFrequentouMemb),
+    createBodySmallTable('Sabe ler e escrever  ', userInfos?.codSabeLerEscreverMemb),
+    createBodySmallTable('Frequenta escola ', userInfos?.descFrequentaEscolaMemb),
+    createBodySmallTable('Curso que frequenta ', userInfos?.descCursoFrequentaMemb),
+    createBodySmallTable('Ano e série que frequenta ', userInfos?.descAnoSerieFrequentaMemb),
+    createBodySmallTable('Curso mais elevado que frequentou  ', userInfos?.descCursoFrequentouPessoaMemb),
+    createBodySmallTable('Último ano e série que frequentou ', userInfos?.descAnoSerieFrequentouMemb),
+    createBodySmallTable('Concluiu o curso frequentado  ', userInfos?.codConcluiuFrequentouMemb),
   ];
   const tableBodyFinanceiro = [
-    createBodySmallTable('Exerceu trabalho remunerado nos últimos 12 meses ', '*****'),
-    createBodySmallTable('Renda per capita familiar ', userInfos.vlrRendaMediaFam),
-    createBodySmallTable('Função principal ', userInfos.descTrabMembro),
-    createBodySmallTable('Indicação de Trabalho Infantil na Família ', userInfos.indTrabalhoInfantilFam),
-    createBodySmallTable('Recebe ajuda de terceiros  ', userInfos.indAjudaNaoMemb),
-    createBodySmallTable('Ajuda de Terceiros - Família ', userInfos.indAjudaFamiliaMemb),
-    createBodySmallTable('Ajuda de Terceiros - Especializada ', '*****'),
-    createBodySmallTable('Ajuda de Terceiros - Vizinhos ', '*****'),
-    createBodySmallTable('Ajuda de Terceiros - Instituição da rede social  ', '*****'),
-    createBodySmallTable('Ajuda de Terceiros  - Outra forma ', '*****'),
+    createBodySmallTable('Exerceu trabalho remunerado nos últimos 12 meses ', userInfos?.codTrabalhoDozeMesesMemb),
+    createBodySmallTable('Renda per capita familiar ', userInfos?.vlrRendaMediaFam),
+    createBodySmallTable('Função principal ', userInfos?.descTrabMembro),
+    createBodySmallTable('Indicação de Trabalho Infantil na Família ', userInfos?.indTrabalhoInfantilFam),
+    createBodySmallTable('Recebe ajuda de terceiros  ', userInfos?.indAjudaNaoMemb),
+    createBodySmallTable('Ajuda de Terceiros - Família ', userInfos?.indAjudaFamiliaMemb),
+    createBodySmallTable('Ajuda de Terceiros - Especializada ', userInfos?.indAjudaEspecializadoMemb),
+    createBodySmallTable('Ajuda de Terceiros - Vizinhos ', userInfos?.indAjudaVizinhoMemb),
+    createBodySmallTable('Ajuda de Terceiros - Instituição da rede social  ', userInfos?.indAjudaInstituicaoMemb),
+    createBodySmallTable('Ajuda de Terceiros  - Outra forma ', userInfos?.indAjudaOutraMemb),
   ];
 
   return (
@@ -207,13 +216,13 @@ const Details: React.FC = () => {
               </article>
 
               <div>
-                <DetailsTableSmall header="Dados Pessoais" values={tableBodyPessoais} height={1000} />
-                <DetailsTableSmall header="Situação Financeira" values={tableBodyFinanceiro} height={640} />
+                <DetailsTableSmall header="Dados Pessoais" values={tableBodyPessoais} height={1100} />
+                <DetailsTableSmall header="Situação Financeira" values={tableBodyFinanceiro} height={800} />
               </div>
 
               <div>
-                <DetailsTableSmall header="Educação" values={tableBodyEducacao} height={480} />
-                <DetailsTableSmall header="Saúde" values={tableBodySaude} height={550} />
+                <DetailsTableSmall header="Educação" values={tableBodyEducacao} height={580} />
+                <DetailsTableSmall header="Saúde" values={tableBodySaude} height={650} />
 
               </div>
 
@@ -223,21 +232,24 @@ const Details: React.FC = () => {
               <br />
 
               <h3>Cidadão Vinculado</h3>
-              <CidadaoVinculadoSISATable headers={headersVinculadoSISA} values={rows} />
+              <CidadaoVinculadoSISATable
+                headers={headersVinculadoSISA}
+                values={valuesVinculadoSISA}
+              />
 
               <h3>Cidadão Não Vinculado</h3>
               <CidadaoNaoVinculadoSISATable
                 headers={headersNaoVinculadoSISA}
-                values={rows}
+                values={valuesNaoVinculadoSISA}
               />
 
               <h2>Histórico de Atendimento na Rede Direta (SISCR) em Ordem Cronológica </h2>
               <br />
               <SISCRTable headers={headersSISCR} values={rows} />
 
-              <h2>Histórico de Abordagem de Rua (SISRUA) em Ordem Cronológica </h2>
+              {/* <h2>Histórico de Abordagem de Rua (SISRUA) em Ordem Cronológica </h2>
               <br />
-              <SISRuaTable headers={headersSISRua} values={rows} />
+              <SISRuaTable headers={headersSISRua} values={rows} /> */}
 
             </DetailsBody>
           )
